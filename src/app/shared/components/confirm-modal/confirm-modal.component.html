@@ -1,0 +1,16 @@
+<div class="confirm-modal__backdrop" (click)="cancel.emit()">
+  <section
+    class="confirm-modal"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="title()"
+    (click)="$event.stopPropagation()"
+  >
+    <h2>{{ title() }}</h2>
+    <p>{{ message() }}</p>
+    <div class="confirm-modal__actions">
+      <button type="button" class="btn" (click)="cancel.emit()">{{ cancelLabel() }}</button>
+      <button type="button" class="btn btn-danger" (click)="confirm.emit()">{{ confirmLabel() }}</button>
+    </div>
+  </section>
+</div>

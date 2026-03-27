@@ -1,0 +1,18 @@
+<app-article-list
+  [articles]="store.articles()"
+  [loading]="store.loading()"
+  [error]="store.error()"
+  (createArticle)="onCreate()"
+  (deleteArticle)="onDelete($event)"
+/>
+
+@if (confirmDialog.visible) {
+  <app-confirm-modal
+    [title]="confirmDialog.title"
+    [message]="confirmDialog.message"
+    confirmLabel="Удалить"
+    cancelLabel="Отмена"
+    (confirm)="confirmDialog.confirm()"
+    (cancel)="confirmDialog.cancel()"
+  />
+}

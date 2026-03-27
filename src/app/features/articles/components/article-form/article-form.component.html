@@ -1,0 +1,47 @@
+<form [formGroup]="form" class="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label for="title">Заголовок</label>
+    <input
+      id="title"
+      type="text"
+      formControlName="title"
+      [attr.maxlength]="titleMaxLength"
+      [class.field__input--error]="form.controls.title.invalid && form.controls.title.touched"
+    />
+    @if (form.controls.title.touched) {
+      @if (form.controls.title.hasError('required')) {
+        <span class="field__error" role="alert">Заголовок обязателен</span>
+      } @else if (form.controls.title.hasError('maxlength')) {
+        <span class="field__error" role="alert">Максимум {{ titleMaxLength }} символов</span>
+      }
+    }
+  </div>
+
+  <div class="field">
+    <label for="content">Текст</label>
+    <textarea
+      #contentField
+      id="content"
+      rows="10"
+      formControlName="content"
+      [attr.maxlength]="contentMaxLength"
+      [class.field__input--error]="form.controls.content.invalid && form.controls.content.touched"
+      (select)="emitSelectionFromField(contentField)"
+      (mouseup)="emitSelectedAnnotation(contentField, $event)"
+    ></textarea>
+    @if (form.controls.content.touched) {
+      @if (form.controls.content.hasError('required')) {
+        <span class="field__error" role="alert">Текст статьи обязателен</span>
+      } @else if (form.controls.content.hasError('maxlength')) {
+        <span class="field__error" role="alert">Максимум {{ contentMaxLength }} символов</span>
+      }
+    }
+  </div>
+
+  <div class="actions">
+    <button type="button" class="btn" (click)="cancel.emit()">Отмена</button>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid || submitting()">
+      {{ submitLabel() }}
+    </button>
+  </div>
+</form>

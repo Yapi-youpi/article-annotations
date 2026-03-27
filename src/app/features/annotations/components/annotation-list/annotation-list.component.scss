@@ -1,0 +1,152 @@
+.annotations {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  padding: 16px;
+
+  h2 {
+    margin: 0 0 12px;
+    font-size: 1.2rem;
+    letter-spacing: -0.01em;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+
+  &__item {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-soft);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+
+    p {
+      margin: 4px 0 0;
+      color: var(--text-muted);
+    }
+  }
+}
+
+.annotation-content {
+  min-width: 0;
+}
+
+.annotation-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.annotation-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 1px solid rgb(15 23 42 / 0.2);
+  flex-shrink: 0;
+}
+
+.annotation-selected {
+  font-style: italic;
+}
+
+.annotation-input {
+  margin-top: 6px;
+  width: 100%;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+
+.annotation-edit-color {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.annotation-edit-presets {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.annotation-preset {
+  height: 24px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+
+  &--active {
+    border-color: rgb(15 23 42 / 0.8);
+  }
+}
+
+.annotation-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.icon-btn {
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--surface);
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+
+  &:hover {
+    background: #fff;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &-primary {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: #fff;
+  }
+
+  &-danger {
+    color: var(--danger);
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+}
+
+.status {
+  color: var(--text-muted);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+  padding: 10px 12px;
+
+  &-error {
+    color: var(--danger);
+  }
+}

@@ -1,0 +1,74 @@
+<section class="article-list">
+  <header class="article-list__header">
+    <h1>Статьи</h1>
+    <div class="article-list__header-actions">
+      <div class="view-switch" role="group" aria-label="Вид списка статей">
+        <button
+          type="button"
+          class="btn btn-view"
+          [class.btn-view--active]="viewMode() === 'grid'"
+          [attr.aria-pressed]="viewMode() === 'grid'"
+          aria-label="Плитка"
+          title="Плитка"
+          (click)="setViewMode('grid')"
+        >
+          <svg viewBox="0 0 24 24" class="view-icon" aria-hidden="true" fill="currentColor">
+            <path d="M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm11 0h7v7h-7z" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="btn btn-view"
+          [class.btn-view--active]="viewMode() === 'list'"
+          [attr.aria-pressed]="viewMode() === 'list'"
+          aria-label="Список"
+          title="Список"
+          (click)="setViewMode('list')"
+        >
+          <svg viewBox="0 0 24 24" class="view-icon" aria-hidden="true" fill="currentColor">
+            <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z" />
+          </svg>
+        </button>
+      </div>
+      <button type="button" class="btn btn-primary" (click)="createArticle.emit()">Новая статья</button>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <p class="status">Загрузка...</p>
+  } @else {
+    @if (error()) {
+      <p class="status status-error">{{ error() }}</p>
+    }
+    @if (!articles().length && !error()) {
+      <p class="status">Пока нет статей.</p>
+    }
+    @if (articles().length) {
+      <ul
+        class="article-list__items"
+        [class.article-list__items--grid]="viewMode() === 'grid'"
+        [class.article-list__items--list]="viewMode() === 'list'"
+      >
+        @for (article of articles(); track article.id) {
+          <li class="article-item" [class.article-item--list]="viewMode() === 'list'">
+            <a class="article-item__link" [routerLink]="['/articles', article.id]">
+              <h3>{{ article.title }}</h3>
+              <p>{{ article.content | articlePreview }}</p>
+            </a>
+            <button
+              type="button"
+              class="btn btn-icon article-item__delete"
+              aria-label="Удалить статью"
+              title="Удалить"
+              (click)="deleteArticle.emit(article.id)"
+            >
+              <svg viewBox="0 0 24 24" class="action-icon" aria-hidden="true" fill="currentColor">
+                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+              </svg>
+            </button>
+          </li>
+        }
+      </ul>
+    }
+  }
+</section>

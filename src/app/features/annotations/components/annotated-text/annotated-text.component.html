@@ -1,0 +1,14 @@
+<article class="annotated-text">
+  @for (segment of segments(); track $index) {
+    @if (segment.annotationText) {
+      <span
+        class="annotation-mark"
+        [style.--annotation-color]="segment.color"
+        [attr.data-tooltip]="segment.annotationText"
+        >{{ segment.text }}</span
+      >
+    } @else {
+      {{ segment.text }}
+    }
+  }
+</article>

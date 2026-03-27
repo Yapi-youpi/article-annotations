@@ -1,0 +1,45 @@
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  background: rgb(255 255 255 / 0.85);
+  backdrop-filter: blur(8px);
+}
+
+.app-header__inner {
+  max-width: 1024px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.nav {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.nav-link {
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 7px 12px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  transition: all 0.18s ease;
+
+  &:hover {
+    background: var(--surface-soft);
+    border-color: var(--border);
+    color: var(--text);
+  }
+}
+
+.app-title {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  font-size: 1.06rem;
+}

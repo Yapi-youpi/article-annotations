@@ -1,0 +1,36 @@
+<section class="page">
+  <a routerLink="/articles" class="back">&larr; К списку статей</a>
+
+  @if (articleFacade.selectedArticle(); as article) {
+    <div class="header">
+      <h1>{{ article.title }}</h1>
+      <div class="header__actions">
+        <button type="button" class="btn" (click)="onEdit(article.id)">Изменить</button>
+        <button type="button" class="btn btn-danger" (click)="onDelete(article.id)">Удалить</button>
+      </div>
+    </div>
+
+    <app-annotated-text [content]="article.content" [annotations]="annotationsFacade.annotations()" />
+
+    <app-annotation-list
+      [annotations]="annotationsFacade.annotations()"
+      [loading]="annotationsFacade.loading()"
+      [error]="annotationsFacade.error()"
+      (updateAnnotation)="onUpdateAnnotation($event)"
+      (deleteAnnotation)="onDeleteAnnotation($event)"
+    />
+  } @else if (!articleFacade.loading()) {
+    <p>Статья не найдена.</p>
+  }
+
+  @if (confirmDialog.visible) {
+    <app-confirm-modal
+      [title]="confirmDialog.title"
+      [message]="confirmDialog.message"
+      confirmLabel="Удалить"
+      cancelLabel="Отмена"
+      (confirm)="confirmDialog.confirm()"
+      (cancel)="confirmDialog.cancel()"
+    />
+  }
+</section>

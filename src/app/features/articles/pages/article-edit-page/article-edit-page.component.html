@@ -1,0 +1,54 @@
+<section class="page">
+  <a routerLink="/articles" class="back">К списку статей</a>
+  <h1>{{ isEditMode() ? 'Редактирование статьи' : 'Создание статьи' }}</h1>
+  <p class="hint">Аннотация создается выделением текста в поле "Текст".</p>
+
+  <app-article-form
+    [initialValue]="initialValue"
+    [submitLabel]="isEditMode() ? 'Сохранить' : 'Создать'"
+    [submitting]="facade.mutating()"
+    (submitted)="onSubmit($event)"
+    (annotationSelected)="onAnnotationSelected($event)"
+    (contentChanged)="onContentChanged($event)"
+    (cancel)="onCancel()"
+  />
+
+  <app-annotation-create-popup
+    [selection]="pendingSelection"
+    [x]="annotationPopupX"
+    [y]="annotationPopupY"
+    [colorPresets]="colorPresets"
+    (created)="onAnnotationCreated($event)"
+    (dismissed)="pendingSelection = null"
+  />
+
+  @if (currentContent) {
+    <section class="preview">
+      <h2>Предпросмотр аннотаций</h2>
+      <app-annotated-text [content]="currentContent" [annotations]="displayedAnnotations" />
+    </section>
+  }
+
+  <app-annotation-list
+    [annotations]="displayedAnnotations"
+    [loading]="annotationsLoading"
+    [error]="annotationsError"
+    (updateAnnotation)="onUpdateAnnotation($event)"
+    (deleteAnnotation)="onDeleteAnnotation($event)"
+  />
+
+  @if (facade.error()) {
+    <p class="error">{{ facade.error() }}</p>
+  }
+
+  @if (confirmDialog.visible) {
+    <app-confirm-modal
+      [title]="confirmDialog.title"
+      [message]="confirmDialog.message"
+      confirmLabel="Удалить"
+      cancelLabel="Отмена"
+      (confirm)="confirmDialog.confirm()"
+      (cancel)="confirmDialog.cancel()"
+    />
+  }
+</section>

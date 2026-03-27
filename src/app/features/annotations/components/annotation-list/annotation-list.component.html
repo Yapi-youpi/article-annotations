@@ -1,0 +1,100 @@
+<section class="annotations">
+  <header>
+    <h2>Аннотации</h2>
+  </header>
+
+  @if (loading()) {
+    <p class="status">Загрузка аннотаций...</p>
+  } @else if (error()) {
+    <p class="status status-error">{{ error() }}</p>
+  } @else if (!annotations().length) {
+    <p class="status">Пока нет аннотаций.</p>
+  } @else {
+    <ul class="annotations__list">
+      @for (annotation of annotations(); track annotation.id) {
+        <li class="annotations__item">
+          <div class="annotation-content">
+            <div class="annotation-meta">
+              <span class="annotation-color" [style.backgroundColor]="resolveColor(annotation.id, annotation.color)" aria-hidden="true"></span>
+              <strong>#{{ annotation.position }}</strong>
+            </div>
+            <p class="annotation-selected">"{{ annotation.selectedText }}"</p>
+            @if (editingId === annotation.id) {
+              <input
+                class="annotation-input"
+                type="text"
+                [value]="editText"
+                (input)="onEditTextInput($event)"
+                placeholder="Текст аннотации"
+              />
+              <div class="annotation-edit-presets">
+                @for (preset of colorPresets; track preset) {
+                  <button
+                    type="button"
+                    class="annotation-preset"
+                    [class.annotation-preset--active]="editColor === preset"
+                    [style.backgroundColor]="preset"
+                    (click)="selectEditPresetColor(preset)"
+                    [attr.aria-label]="'Выбрать цвет ' + preset"
+                    title="Выбрать цвет"
+                  ></button>
+                }
+              </div>
+              <div class="annotation-edit-color">
+                <span>Свой цвет:</span>
+                <input type="color" [value]="editColor" (input)="onEditColorInput($event)" />
+                <span>{{ editColor }}</span>
+              </div>
+            } @else {
+              <p>{{ annotation.text }}</p>
+            }
+          </div>
+          <div class="annotation-actions">
+            @if (editingId === annotation.id) {
+              <button type="button" class="icon-btn" (click)="cancelEditing()" aria-label="Отмена" title="Отмена">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6 6L18 18M18 6L6 18" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="icon-btn icon-btn-primary"
+                [disabled]="!editText.trim()"
+                (click)="saveEditing(annotation.id)"
+                aria-label="Сохранить"
+                title="Сохранить"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 13L10 18L19 7" />
+                </svg>
+              </button>
+            } @else {
+              <button
+                type="button"
+                class="icon-btn"
+                (click)="startEditing(annotation)"
+                aria-label="Редактировать"
+                title="Редактировать"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM14.06 4.94l3.75 3.75" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="icon-btn icon-btn-danger"
+                (click)="deleteAnnotation.emit(annotation.id)"
+                aria-label="Удалить"
+                title="Удалить"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 7h16M9 7V5h6v2M8 7l1 12h6l1-12" />
+                </svg>
+              </button>
+            }
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</section>

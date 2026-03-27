@@ -1,0 +1,47 @@
+@if (selection(); as sel) {
+  <section class="popup" [style.left.px]="x()" [style.top.px]="y()">
+    <h2>Новая аннотация</h2>
+    <p class="popup__selection">Выделено: "{{ sel.selectedText }}"</p>
+
+    <label for="annotation-text">Текст аннотации</label>
+    <input
+      id="annotation-text"
+      type="text"
+      [value]="annotationText"
+      (input)="onTextInput($event)"
+      placeholder="Введите комментарий"
+    />
+
+    <label for="annotation-color">Цвет аннотации</label>
+    <div class="popup__preset-grid">
+      @for (preset of colorPresets(); track preset) {
+        <button
+          type="button"
+          class="popup__preset"
+          [class.popup__preset--active]="annotationColor === preset"
+          [style.backgroundColor]="preset"
+          (click)="selectPreset(preset)"
+          [attr.aria-label]="'Выбрать цвет ' + preset"
+          title="Выбрать цвет"
+        ></button>
+      }
+    </div>
+    <div class="popup__color-row">
+      <span>Свой цвет:</span>
+      <input id="annotation-color" type="color" [value]="annotationColor" (input)="onColorInput($event)" />
+      <span>{{ annotationColor }}</span>
+    </div>
+
+    <div class="popup__actions">
+      <button type="button" class="btn" (click)="dismissed.emit()">Отмена</button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        [disabled]="!annotationText.trim()"
+        (click)="create(sel)"
+      >
+        Создать аннотацию
+      </button>
+    </div>
+  </section>
+}
