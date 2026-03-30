@@ -14,10 +14,11 @@
         var p = params.get('p');
         if (p) {
           var q = params.get('q');
+          var basePath = document.baseURI.replace(window.location.origin, '').replace(/\/$/, '');
           window.history.replaceState(
             null,
             null,
-            window.location.pathname.replace(/\/$/, '') + p + (q ? '?' + q : '') + window.location.hash
+            basePath + p + (q ? '?' + q : '') + window.location.hash
           );
         }
       })();
